@@ -15,7 +15,7 @@ class Cannon{
         imageMode(CENTER);
         image(this.cannonImage,0,0,this.width,this.height);
         pop();
-        rect(70,20,200,200);
+        image(this.cannonBaseseila,70,20,200,200);
         noFill();
     }    
 }

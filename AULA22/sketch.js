@@ -7,6 +7,7 @@ var imgbackground;
 var torre, torreimg;
 var canhao;
 var angle=20;
+var bolacanhao;
 function preload() {
   imgbackground = loadImage("assets/background.gif");
   torreimg = loadImage("assets/tower.png");
@@ -29,6 +30,7 @@ function setup() {
   World.add(world, torre);
  
   canhao=new Cannon(180,110,130,100,angle);
+  bolacanhao = new CannonBall(canhao.x, canhao.y);
 }
 
 function draw() {
@@ -42,4 +44,5 @@ function draw() {
   image(torreimg, torre.position.x, torre.position.y, 160,310);
   pop();
   canhao.display();
+  bolacanhao.display();
 }
