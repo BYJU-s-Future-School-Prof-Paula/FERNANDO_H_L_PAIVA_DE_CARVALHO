@@ -5,7 +5,8 @@ const Constraint = Matter.Constraint;
 var engine, world, ground;
 var imgbackground;
 var torre, torreimg;
-
+var canhao;
+var angle=20;
 function preload() {
   imgbackground = loadImage("assets/background.gif");
   torreimg = loadImage("assets/tower.png");
@@ -27,6 +28,7 @@ function setup() {
   torre = Bodies.rectangle(160,350,160,310,options);
   World.add(world, torre);
  
+  canhao=new Cannon(180,110,130,100,angle);
 }
 
 function draw() {
@@ -39,4 +41,5 @@ function draw() {
   imageMode(CENTER);
   image(torreimg, torre.position.x, torre.position.y, 160,310);
   pop();
+  canhao.display();
 }
