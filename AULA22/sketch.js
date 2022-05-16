@@ -6,7 +6,7 @@ var engine, world, ground;
 var imgbackground;
 var torre, torreimg;
 var canhao;
-var angle=20;
+var angle;
 var bolacanhao;
 function preload() {
   imgbackground = loadImage("assets/background.gif");
@@ -14,6 +14,9 @@ function preload() {
 }
 
 function setup() {
+
+  angleMode(DEGREES);
+  angle=20;
 
   canvas = createCanvas(1200, 600);
   engine = Engine.create();
@@ -31,8 +34,14 @@ function setup() {
  
   canhao=new Cannon(180,110,130,100,angle);
   bolacanhao = new CannonBall(canhao.x, canhao.y);
-}
 
+ 
+}
+function keyReleased(){
+  if(keyCode===DOWN_ARROW){
+    bolacanhao.one_puuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuunchhh();
+  }
+}
 function draw() {
   background(189);
   Engine.update(engine);
