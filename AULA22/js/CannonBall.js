@@ -8,7 +8,7 @@ class CannonBall
 
         this.raio = 30;
         this.body = Bodies.circle(x,y,this.raio,options);
-        this.imagem = loadImage("/assets/cannonball.png");
+        this.imagem = loadImage("assets/cannonball.png");
         World.add(world, this.body);
     }
 
