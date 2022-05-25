@@ -9,8 +9,9 @@ var imgbackground;
 var torre, torreimg;
 var canhao;
 var angle;
-var boat;
 
+
+var barcos=[];
 var esferas=[];
 function preload() {
   imgbackground = loadImage("assets/background.gif");
@@ -38,7 +39,7 @@ function setup() {
  
   canhao=new Cannon(180,110,130,100,angle);
   
-  boat = new Boat(width-79, height-60,170,170,-80);
+ 
  
 }
 function keyReleased(){
@@ -61,8 +62,7 @@ function draw() {
     la_vai_bomba(esferas[i]);
   }
 
-  Body.setVelocity(boat.body,{x:-0.9, y:0});
-  boat.display();
+  apareci();
 
 }
 function keyPressed(){
@@ -74,5 +74,29 @@ function keyPressed(){
 function la_vai_bomba(bola){
   if(bola){
     bola.display();
+  }
+}
+function apareci(){
+  if (barcos.length>0){
+    if(
+      barcos[barcos.length-1] === undefined ||
+      barcos[barcos.length-1].body.position.x < width-300
+      ){
+      var posicoes = [-40,-60,-70,-20];
+      var posicao = random(posicoes);
+      var barco = new Boat(width, height-100, 170,170,posicao);
+      
+      barcos.push(barco);
+    }
+    for(var i=0; i<barcos.length; i++){
+      if(barcos[i]){
+        Body.setVelocity(barcos[i].body,{x:-0.9,y:0});
+        barcos[i].display();
+      }
+    }
+  }
+  else {
+    var barco=new Boat(width,height-60,170,170,-60);
+    barcos.push(barco);
   }
 }
