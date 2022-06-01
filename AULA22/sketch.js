@@ -10,12 +10,18 @@ var torre, torreimg;
 var canhao;
 var angle;
 
-
 var barcos=[];
 var esferas=[];
+
+var animacaoBarco = [];
+var barcoSpritedata, barcoSpritesheet;
+
 function preload() {
   imgbackground = loadImage("assets/background.gif");
   torreimg = loadImage("assets/tower.png");
+
+  barcoSpritedata = loadJSON("assets/boat/boat.json");
+  barcoSpritesheet = loadImage("assets/boat/boat.png")
 }
 
 function setup() {
@@ -39,7 +45,13 @@ function setup() {
  
   canhao=new Cannon(180,110,130,100,angle);
   
- 
+  var barcoFrame = barcoSpritedata.frames;
+  for(var i=0;i<barcoFrame.length; i++){
+    var pos = barcoFrame[i].position;
+    var img = barcoSpritesheet.get(pos.x, pos.y, pos.w, pos.h);
+    
+    animacaoBarco.push(img);
+  }
  
 }
 function keyReleased(){
@@ -59,7 +71,8 @@ function draw() {
   pop();
   canhao.display();
   for(var i=0;i<esferas.length;i++){
-    la_vai_bomba(esferas[i]);
+    la_vai_bomba(esferas[i],i);
+    piratas_do_caribe(i);
   }
 
   apareci();
@@ -71,9 +84,12 @@ function keyPressed(){
     esferas.push(bolacanhao);
   }
 }
-function la_vai_bomba(bola){
+function la_vai_bomba(bola,index){
   if(bola){
     bola.display();
+    if(bola.body.position.x>=width||bola.body.position.y>=height-50){
+      bola.pshiuiiiiiim(index);
+    }
   }
 }
 function apareci(){
@@ -84,7 +100,7 @@ function apareci(){
       ){
       var posicoes = [-40,-60,-70,-20];
       var posicao = random(posicoes);
-      var barco = new Boat(width, height-100, 170,170,posicao);
+      var barco = new Boat(width, height-100, 170,170,posicao, animacaoBarco);
       
       barcos.push(barco);
     }
@@ -92,11 +108,25 @@ function apareci(){
       if(barcos[i]){
         Body.setVelocity(barcos[i].body,{x:-0.9,y:0});
         barcos[i].display();
+        barcos[i].relampago_marquinhos();
       }
     }
   }
   else {
-    var barco=new Boat(width,height-60,170,170,-60);
+    var barco=new Boat(width,height-60,170,170,-60,animacaoBarco);
     barcos.push(barco);
   }
+}
+function piratas_do_caribe(index){
+  for(var i=0;i<barcos.length; i++){
+    if (esferas[index]!==undefined&&barcos[i]!==undefined){
+      var colisao=Matter.SAT.collides(esferas[index].body,barcos[i].body);
+      if(colisao.collided){
+        barcos[i].pshiuiiiiiim(i);
+        Matter.World.remove(world,esferas[index].body);
+        delete esferas[index];
+      }
+    }
+  } 
+
 }
